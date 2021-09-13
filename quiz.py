@@ -9,10 +9,19 @@ grp = tuple(quiz_dat.keys())
 
 theme = "\n".join((f"{n + 1}. {k}" for n, k in enumerate(grp)))
 
-# Ask user to choose group
-s_grp = int(input(f"Choose group\n{theme}\n(1 / 2)\n")) - 1
+while 1:
+    try:
+        # Ask user to choose group
+        s_grp = int(input(f"Choose group\n{theme}\n(1 / 2)\n")) - 1
+        grp_name = grp[s_grp]
+        break
+    except IndexError:
+        print("Invalid Choice")
+    except ValueError:
+        print("Invalid Format\n Please enter option number")
+        
+    
 
-grp_name = grp[s_grp]
 questions = quiz_dat[grp_name]
 
 score = {"right": 0, "wrong": 0, "total": len(questions.keys())}
@@ -23,11 +32,19 @@ for k in questions.keys():
     print(questions[k]['question'])
     options = questions[k]["options"]
     
-    
-    for n, opt in enumerate(questions[k]["options"]):
-        print(f"{n+1}. {opt}")
-    ans = int(input("Your answer: ")) - 1
-    ans = options[ans]
+    while 1:
+        try:
+            for n, opt in enumerate(questions[k]["options"]):
+                print(f"{n+1}. {opt}")
+            ans = int(input("Your answer: ")) - 1
+            ans = options[ans]
+            break
+
+        except IndexError:
+            print("Invalid Option Number")
+        except ValueError:
+            print("Invalid Answer")
+            print("Enter the option number\neg. 1 or 2 or 3")
     
     if ans == questions[k]['answer']:
         score["right"] += 1
